@@ -26,3 +26,5 @@ Running the executable creates two files -> data.txt and dataControlPoints.txt
 These are used in the python script (plotSpline.py)
 
 python3 plotSpline.py
+
+![](BSpline.png) | ![](BSpline3D.png)
