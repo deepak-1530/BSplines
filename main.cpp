@@ -2,11 +2,11 @@
 
 using namespace std;
 
-BSpline::BSpline bspline;  // bspline object
+BSpline::BSpline bspline(0.15);  // bspline object
 
 std::vector<Eigen::Vector3d> controlPoints; 
 
-int splineOrder = 5;
+int splineOrder = 4;
 
 
 int main()
@@ -29,7 +29,9 @@ int main()
         splineData<<pt(0)<<","<<pt(1)<<","<<pt(2)<<std::endl;
         controlPoints.push_back(pt);
     }
+
     splineData.close();
+    
     // set this as the control points
     bspline.setControlPoints(controlPoints);
 
@@ -46,7 +48,6 @@ int main()
     bspline.getBSplineTrajectory();
 
     // print the spline points
-
     splineData.open("data.txt");
 
     for(int i = 0; i<bspline.splineSegments.size(); i++)
@@ -62,8 +63,13 @@ int main()
         }
     }
 
+    // print the knot-vector
+    for(int i = 0; i<bspline.knotVector.size(); i++)
+    {
+        std::cout<<bspline.knotVector[i]<<std::endl;
+    }
+
     splineData.close();
 
     return 0;
-
 }

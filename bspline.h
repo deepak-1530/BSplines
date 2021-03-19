@@ -1,5 +1,4 @@
 // bspline header file
-// class -> bspline
 
 #include<iostream>
 #include<math.h>
@@ -17,7 +16,7 @@ class BSpline
     public:
         int order=3;
         int numCtrlPoints, knotSize, numSegments;
-        std::vector<int> knotVector;
+        std::vector<float> knotVector;
         std::vector<Eigen::Vector3d> ctrlPoints;
         std::vector<Eigen::Vector3d> splineTrajectory;             // this contains all the points in the spline for all the control points
         std::vector<std::vector<Eigen::Vector3d> > splineSegments; // spline trajectory of each segment
@@ -27,6 +26,7 @@ class BSpline
         void setOrder(int _order_);
         void setKnotVector();
         void setNumSegments();
+        float interval;
 
     private:
         double coxDeBoorBasis(int i, int k, float u); // this is the spline basis function --> using recursive cox-deboor equation to get bspline basis function
@@ -35,10 +35,11 @@ class BSpline
 
 /////////////////////////////////////////////////////////////////////////
 /** constructor **/
-BSpline::BSpline::BSpline()
+BSpline::BSpline::BSpline(float interval_)
 {
     order = 3;
     std::cout<<"Spline initialized \n";
+    interval = interval_;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -61,11 +62,13 @@ void BSpline::BSpline::setKnotVector()
 {
     knotSize = order + numCtrlPoints + 1;  // m = n + p + 1
 
-    /** use the bspline theory
+    /**
+     *  use the bspline theory
      *  t[i] = 0 if i<k
      *  t[i] = i-k+1 if k<=i<n
      *  t[i] = n-k+2 if i >= n
     **/
+    float count  = 0;
     for(int i = 0; i<knotSize; i++)
     {
         int m = i;
@@ -77,12 +80,14 @@ void BSpline::BSpline::setKnotVector()
 
         else if(i>=order && i<=numCtrlPoints)
         {
-            knotVector.push_back(i-order + 1);
+            count += interval;
+            knotVector.push_back(count);
         }
 
         else  if(i > numCtrlPoints)
         {
-            knotVector.push_back(numCtrlPoints - order + 2);
+            //count += 0.25;
+            knotVector.push_back(count+interval);//numCtrlPoints - order + 2.0);
         }
         
     }
@@ -108,10 +113,11 @@ void BSpline::BSpline::getBSplineTrajectory()
     /** create segment-wise splines **/
     for(int i = 0; i<numSegments; i++)
     {    
+        float t_s = knotVector[int(order) - 1 + i];
         
         /** now for each segment take the control points (each segment is affected by 
          * "order" no. of points i.e. here each segment is affected by 4 points) **/
-        for(float t=float(i); t<float(i) + 1.0; t=t+0.01) 
+        for(float t=t_s; t<t_s + interval; t=t+0.01) 
         {
             Eigen::Vector3d pt(0,0,0);
 
