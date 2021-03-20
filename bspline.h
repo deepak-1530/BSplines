@@ -20,7 +20,7 @@ class BSpline
         std::vector<Eigen::Vector3d> ctrlPoints;
         std::vector<Eigen::Vector3d> splineTrajectory;             // this contains all the points in the spline for all the control points
         std::vector<std::vector<Eigen::Vector3d> > splineSegments; // spline trajectory of each segment
-        BSpline();                                                 // constructor
+        BSpline(float interval_);                                                 // constructor
         void getBSplineTrajectory();
         void setControlPoints(std::vector<Eigen::Vector3d> _ctrlPoints_);
         void setOrder(int _order_);
