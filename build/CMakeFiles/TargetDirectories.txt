@@ -1,0 +1,3 @@
+/home/deepak/Deepak/SplineTrajectory/BSplines/build/CMakeFiles/rebuild_cache.dir
+/home/deepak/Deepak/SplineTrajectory/BSplines/build/CMakeFiles/main.dir
+/home/deepak/Deepak/SplineTrajectory/BSplines/build/CMakeFiles/edit_cache.dir

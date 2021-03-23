@@ -21,15 +21,16 @@ class BSpline
         std::vector<Eigen::Vector3d> splineTrajectory;             // this contains all the points in the spline for all the control points
         std::vector<std::vector<Eigen::Vector3d> > splineSegments; // spline trajectory of each segment
         BSpline(float interval_);                                                 // constructor
+        void setOrder(int _order_);
         void getBSplineTrajectory();
         void setControlPoints(std::vector<Eigen::Vector3d> _ctrlPoints_);
-        void setOrder(int _order_);
-        void setKnotVector();
-        void setNumSegments();
         float interval;
 
     private:
         double coxDeBoorBasis(int i, int k, float u); // this is the spline basis function --> using recursive cox-deboor equation to get bspline basis function
+        void setKnotVector();
+        void setNumSegments();
+
 };  
 } // namesapce
 
@@ -47,6 +48,8 @@ BSpline::BSpline::BSpline(float interval_)
 void BSpline::BSpline::setControlPoints(std::vector<Eigen::Vector3d> _ctrlPoints_)
 {
     ctrlPoints = _ctrlPoints_;
+    setKnotVector();
+    setNumSegments();
 }
 
 //////////////////////////////////////////////////////////////////////////

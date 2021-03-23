@@ -18,7 +18,7 @@ int main()
     std::cout<<"Enter the num of control points ";
     std::cin>>bspline.numCtrlPoints;
 
-    splineData.open("dataControlPoints.txt");
+    splineData.open("../dataControlPoints.txt");
 
     // take the points as input
     for(int i = 0; i<=bspline.numCtrlPoints; i++)
@@ -32,23 +32,17 @@ int main()
 
     splineData.close();
     
-    // set this as the control points
-    bspline.setControlPoints(controlPoints);
-
     // set the order
     bspline.setOrder(splineOrder);
 
-    // now calculate the spline
-    bspline.setKnotVector();    // this sets the knot vector
-
-    // set the no. of segments
-    bspline.setNumSegments();
+    // set this as the control points
+    bspline.setControlPoints(controlPoints);
 
     // calculate the bspline points
     bspline.getBSplineTrajectory();
 
     // print the spline points
-    splineData.open("data.txt");
+    splineData.open("../data.txt");
 
     for(int i = 0; i<bspline.splineSegments.size(); i++)
     {
